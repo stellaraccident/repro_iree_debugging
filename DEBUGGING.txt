@@ -1,0 +1,12 @@
+cmake -DIREE_BUILD_XLA_COMPILER=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/tmp/iree -DIREE_ENABLE_LLD=ON .
+
+cmake -DCMAKE_BUILD_TYPE=Debug -DIREE_BUILD_XLA_COMPILER=OFF -DIREE_BUILD_COMPILER=OFF -DIREE_BUILD_TESTS=OFF -DIREE_BUILD_SAMPLES=OFF -DIREE_BUILD_PYTHON_BINDINGS=ON -DPython3_EXECUTABLE=$(which python) -DPYTHON_EXECUTABLE=$(which python) .
+
+cmake -DIREE_ENABLE_ASAN=ON .
+
+export PYTHONPATH=$(realpath $HOME/src/iree-build/bindings/python):$HOME/tmp/iree/python_packages/iree_compiler:$HOME/tmp/iree/python_packages/iree_tools_xla
+
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libasan.so.6
+
+cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .
+
